@@ -1,0 +1,333 @@
+首先。混合，以一种灵活的方式，提供分布式的组件复用的方式。
+如下所示
+<body>
+  <div id="app">
+    {{message}}
+    <my-component></my-component>
+  </div>
+
+  <script>
+    var mixin = {
+      created(){
+        this.hello()
+      },
+      methods:{
+        hello(){
+          console.log('这是“这是分布重用的组件”');
+        }
+      }
+    };
+    var component = {
+      mixins:[mixin],
+      template:'<h1>hello world</h1>',
+      created(){
+        console.log('这是母体。')
+      }
+    };
+    var app = new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello Vue!',
+      },
+      components:{
+        'my-component':component
+      }
+    })
+  </script>
+</body>
+
+执行完毕之后，混合的钩子函数是要再组件的钩子函数被调用。
+如上的打印结果是。
+
+“这是分布重用的组件”
+“这是母体。”
+
+加设，如果有多个混合的话，情况如下。
+<body>
+    <div id="app">
+      {{message}}
+      <my-component></my-component>
+    </div>
+
+    <script>
+      var mixin = {
+        created(){
+          this.hello()
+        },
+        methods:{
+          hello(){
+            console.log('这是分布重用的组件');
+          }
+        }
+      };
+      var mixin1 = {
+        created(){
+          this.hello1()
+        },
+        methods:{
+          hello1(){
+            console.log('这是分布重用的组件1');
+          }
+        }
+      };
+      var component = {
+        mixins:[mixin,mixin1],
+        //是一个数组所以可以接收多个混合。
+        template:'<h1>hello world</h1>',
+        created(){
+          console.log('这是母体。')
+        }
+      };
+      var app = new Vue({
+        el: '#app',
+        data: {
+          message: 'Hello Vue!',
+        },
+        components:{
+          'my-component':component
+        }
+      })
+    </script>
+</body>
+执行上边的代码，其结果如下：
+“这是分布重用的组件”
+“这是分布重用的组件1”
+“这是母体。”
+
+先执行了混合的钩子函数，而后执行了组件的，
+两个混合，则是根据两个注入的先后顺序进行的。
+
+
+ 然后，如果，第二个混合的方法，和第一个一样，则第二个会覆盖第一个，
+ 也就是，后来的混合，可以覆盖先前的，这个和js的执行逻辑是一致的。
+ <body>
+     <div id="app">
+       {{message}}
+       <my-component></my-component>
+     </div>
+
+     <script>
+       var mixin = {
+         created(){
+           this.hello()
+         },
+         methods:{
+           hello(){
+             console.log('这是分布重用的组件');
+           }
+         }
+       };
+       var mixin1 = {
+         created(){
+           this.hello()
+         },
+         methods:{
+           hello(){
+             console.log('这是分布重用的组件1');
+           }
+         }
+       };
+       var component = {
+         mixins:[mixin,mixin1],
+         template:'<h1>hello world</h1>',
+         created(){
+           console.log('这是母体。')
+         }
+
+       };
+       var app = new Vue({
+         el: '#app',
+         data: {
+           message: 'Hello Vue!',
+         },
+         components:{
+           'my-component':component
+         }
+       })
+     </script>
+ </body>
+
+结果如下。
+“这是分布重用的组件1”
+“这是分布重用的组件1”
+“这是母体。”
+
+
+ 然后，如果说，混合和母体的组件方法产生了冲突，情况如下，都要hello方法，
+ 最终是母体的hello方法占据主导。覆盖了混合的hello方法。
+ <body>
+     <div id="app">
+       {{message}}
+       <my-component></my-component>
+     </div>
+
+     <script>
+       var mixin = {
+         created(){
+           this.hello()
+         },
+         methods:{
+           hello(){
+             console.log('这是分布重用的组件');
+           }
+         }
+       };
+       var mixin1 = {
+         created(){
+           this.hello()
+         },
+         methods:{
+           hello(){
+             console.log('这是分布重用的组件1');
+           }
+         }
+       };
+       var component = {
+         mixins:[mixin,mixin1],
+         template:'<h1>hello world</h1>',
+         created(){
+           console.log('这是母体。')
+           this.hello()
+         },
+         methods:{
+           hello(){
+             console.log('这是母体的一个hello方法');
+           }
+         }
+       };
+       var app = new Vue({
+         el: '#app',
+         data: {
+           message: 'Hello Vue!',
+         },
+         components:{
+           'my-component':component
+         },
+
+       })
+     </script>
+ </body>
+ 这是母体的一个hello方法
+ 这是母体的一个hello方法
+ 这是母体。
+ 这是母体的一个hello方法
+
+母体里的同名方法拥有最高的权限，会覆盖混合中的方法。
+另外在母体中，混合的全部方法都可以在母体中调用，
+如下：
+<body>
+    <div id="app">
+      {{message}}
+      <my-component></my-component>
+    </div>
+
+    <script>
+      var mixin = {
+        created(){
+          this.hello()
+        },
+        methods:{
+          hello(){
+            console.log('这是分布重用的组件');
+          }
+        }
+      };
+      var mixin1 = {
+        created(){
+          this.hello()
+        },
+        methods:{
+          hello(){
+            console.log('这是分布重用的组件1');
+          },
+          once(){
+            console.log('分布式重用组件的一个方法');
+          }
+        }
+      };
+      var component = Vue.extend({
+        mixins:[mixin,mixin1],
+        template:'<h1>hello world</h1>',
+        created(){
+          console.log('这是母体。')
+          this.hello()
+          this.once()
+        },
+        methods:{
+          hello(){
+            console.log('这是母体的一个hello方法');
+          }
+        }
+      });
+      var app = new Vue({
+        el: '#app',
+        data: {
+          message: 'Hello Vue!',
+        },
+        components:{
+          'my-component':component
+        },
+      })
+    </script>
+</body>
+
+其中的mixin1中的 once方法，在母体created钩子函数中被调用
+执行结果如下。
+“这是母体的一个hello方法”
+“这是母体的一个hello方法”
+“这是母体。”
+“这是母体的一个hello方法”
+“分布式重用组件的一个方法”
+
+
+
+
+最后是全局混合，
+全局混合根据传入的参数进行不同的处理逻辑.
+<body>
+    <div id="app">
+      {{message}}
+      <my-component></my-component>
+    </div>
+    <div id="app1">
+      {{message}}
+      <my-component1></my-component1>
+    </div>
+
+    <script>
+      Vue.mixin({
+        created(){
+          var option = this.$options.myOptions
+          console.log('传入的参数',option);
+        }
+      });
+      var component = Vue.extend({
+        template:'<h1>hello world</h1>'
+      });
+      var app = new Vue({
+        el: '#app',
+        data: {
+          message: 'Hello Vue!',
+        },
+        components:{
+          'my-component':component
+        },
+        myOptions:{name:'YaDang',age:12}
+      })
+
+      var app1 = new Vue({
+        el: '#app1',
+        data: {
+          message: 'Hello Vue!',
+        },
+        components:{
+          'my-component1':component
+        },
+        myOptions:{name:'Jamis',age:13}
+      })
+    </script>
+</body>
+如上的打印结果是
+传入的参数 {name: "YaDang", age: 12}
+传入的参数 {name: "Jamis", age: 13}
+全局混合会影响到所有的组件，所以，不建议使用。

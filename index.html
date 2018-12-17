@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+    <body>
+        <div id="app">
+          <input type="text" name="" value="" v-focus >
+        </div>
+        <div id="hook-arguments-example" v-demo="message">
+          {{message}}
+        </div>
+
+        <script>
+          Vue.directive('demo', {
+
+            update:function(el, binding, vnode){
+              var s = JSON.stringify
+              var text = binding.value
+              console.log('text',text)
+              el.innerHTML = text.split('').reverse().join('')
+            }
+          })
+          var vm = new Vue({
+            el: '#hook-arguments-example',
+            data: {
+              message: ''
+            },
+            created(){
+              let vm = this
+              setTimeout(function(){
+                vm.message='Hello!'
+              },1000)
+            }
+          })
+
+          new Vue({
+            el: '#app',
+            data: {
+              message: 'hello!'
+            },
+            directives: {
+              focus: {
+                // 指令的定义
+                inserted: function (el) {
+                  el.focus()
+                }
+              }
+            }
+          })
+        </script>
+    </body>
+</html>
