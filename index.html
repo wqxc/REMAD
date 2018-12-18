@@ -15,8 +15,8 @@
 
         <script>
           Vue.directive('demo', {
-
             update:function(el, binding, vnode){
+              console.log('update触发了');
               var s = JSON.stringify
               var text = binding.value
               console.log('text',text)
