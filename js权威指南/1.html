@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+
+    <script>
+      function Point(x,y){
+        this.x=x;
+        this.y=y;
+      }
+      var point = new Point(1,1)
+      Point.prototype.sqr = function(){
+        return Math.sqrt(this.x*this.x+this.y*this.y)
+      }
+      var w = point.sqr()
+      console.log(w.toFixed(2));
+    </script>
+  </body>
+</html>
