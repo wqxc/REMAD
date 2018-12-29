@@ -7,16 +7,11 @@
   <body>
 
     <script>
-      function Point(x,y){
-        this.x=x;
-        this.y=y;
-      }
-      var point = new Point(1,1)
-      Point.prototype.sqr = function(){
-        return Math.sqrt(this.x*this.x+this.y*this.y)
-      }
-      var w = point.sqr()
-      console.log(w.toFixed(2));
+        var sum = function(a,b){
+          console.log(this)
+          return a+b;
+        }
+        sum(2,3)
     </script>
   </body>
 </html>
