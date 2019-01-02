@@ -7,11 +7,91 @@
   <body>
 
     <script>
-        var sum = function(a,b){
-          console.log(this)
-          return a+b;
+        function Set() {
+              this.values={};
+              this.n=0;
+              this.add.apply(this,arguments)
         }
-        sum(2,3)
+        Set.prototype.add=function(){
+          for(var i =0;i<arguments.length;i++){
+            var val = arguments[i]
+            var str = Set._v2s(val)
+            if(!this.values.hasOwnProperty(str)){
+              this.values[str]=val
+              this.n++;
+            }
+          }
+          return this
+        }
+
+        Set.prototype.remove=function(){
+          for(var i=0;i<arguments.length;i++){
+            var str = Set._v2s(arguments[i]);
+            console.log("remove",arguments[i],str);
+            if(this.values.hasOwnProperty(str)){
+              delete this.values[str];
+              this.n--
+            }
+          }
+          return this
+        }
+
+        Set.prototype.contain=function(value){
+          return this.values.hasOwnProperty(Set._v2s(value))
+        }
+
+        Set.prototype.size=function(){
+          return this.n;
+        }
+
+        // 遍历集合，并制定上下文和调用的函数
+        Set.prototype.foreach=function(f,context){
+          for(var s in this.values){
+            if(this.values.hasOwnProperty(s)){
+              f.call(context,this.values[s])
+            }
+          }
+        }
+
+        // _v2s函数，将给定的值转为固定的字符串。
+        Set._v2s=function(val){
+          switch(val){
+            case undefined: return 'u';
+            case null: return "n";
+            case true: return 't';
+            case false:return "f";
+            default:switch(typeof(val)){
+              case "number":return "#"+val;
+              case "string":return '"'+val;
+              default:return "@"+objectId(val)
+            }
+          }
+          function objectId(obj){
+            var prop = "|**objectId**|";
+
+            console.log("prop",prop,obj.hasOwnProperty(prop));
+            if(!obj.hasOwnProperty(prop)){
+              obj[prop]=Set._v2s.next++;
+            }
+            return obj[prop]
+          }
+        }
+        Set._v2s.next=10;
+        var set = new Set()
+
+        set.add({x:2})
+        set.add({y:3})
+        set.add({z:4})
+        set.add(undefined)
+        set.add(null)
+        set.add(1)
+        set.add('1')
+        set.remove({z:4,"|**objectId**|":12})
+        var isContain =set.contain(1)
+        var len = set.size()
+        console.log(len,isContain);
+        console.log(set);
+
     </script>
   </body>
 </html>
