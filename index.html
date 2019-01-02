@@ -3,53 +3,71 @@
   <head>
     <meta charset="utf-8">
     <title></title>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style media="screen">
+      #farther{
+        border: 1px solid red;
+        width: 100px;
+        height: 100px;
+        cursor: pointer;
+      }
+      #child{
+        border: 1px solid green;
+        width: 50px;
+        height: 50px;
+      }
+      #child1{
+        border: 1px solid yellow;
+        width: 20px;
+        height: 20px;
+      }
+    </style>
   </head>
     <body>
-        <div id="app">
-          <input type="text" name="" value="" v-focus >
+      <div id="farther">
+        <div id="child">
+          <div id="child1">
+
+          </div>
         </div>
-        <div id="hook-arguments-example" v-demo="message">
-          {{message}}
-        </div>
+      </div>
 
         <script>
-          Vue.directive('demo', {
-            update:function(el, binding, vnode){
-              console.log('update触发了');
-              var s = JSON.stringify
-              var text = binding.value
-              console.log('text',text)
-              el.innerHTML = text.split('').reverse().join('')
-            }
-          })
-          var vm = new Vue({
-            el: '#hook-arguments-example',
-            data: {
-              message: ''
-            },
-            created(){
-              let vm = this
-              setTimeout(function(){
-                vm.message='Hello!'
-              },1000)
-            }
-          })
+          console.log("document",document)
 
-          new Vue({
-            el: '#app',
-            data: {
-              message: 'hello!'
-            },
-            directives: {
-              focus: {
-                // 指令的定义
-                inserted: function (el) {
-                  el.focus()
-                }
-              }
+          window.onload =function(){
+            // 节流函数多了一个 mustRun 属性，代表 mustRun 毫秒内，必然会触发一次 handler ，
+            function throttle(func, wait, mustRun) {
+                var timeout,
+                    startTime = new Date();
+
+                return function() {
+                    var context = this,
+                        args = arguments,
+                        curTime = new Date();
+
+                    clearTimeout(timeout);
+                    // 如果达到了规定的触发时间间隔，触发 handler
+                    if(curTime - startTime >= mustRun){
+                        func.apply(context,args);
+                        startTime = curTime;
+                    // 没达到触发间隔，重新设定定时器
+                    }else{
+                        timeout = setTimeout(func, wait);
+                    }
+                };
+            };
+
+            // window.addEventListener('scroll',throttle(realFunc,500,1000));
+
+            var parent= document.getElementById('farther')
+            console.log("parent",parent);
+            parent.addEventListener('mouseover',throttle(handeler,500,1000))
+            function handeler(e){
+              console.log("this",this);
+              // this.css("border",'2px solid blue')
+              this.style.border="2px solid blue"
             }
-          })
+          }
         </script>
     </body>
 </html>
