@@ -1,12 +1,15 @@
-// 简单的防抖动函数
 function debounce(func, wait, immediate) {
-    // 定时器变量
     var timeout;
     return function() {
-        // 每次触发 scroll handler 时先清除定时器
+        var context = this, args = arguments;
+        var later = function() {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        };
+        var callNow = immediate && !timeout;
         clearTimeout(timeout);
-        // 指定 xx ms 后触发真正想进行的操作 handler
-        timeout = setTimeout(func, wait);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
     };
 };
 
