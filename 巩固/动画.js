@@ -17,5 +17,28 @@ setTimeout；setInterval;requestAnimationFrame;
 而当前任务没有完成的时候，也许第二个计时器就压入队列了，
 那么执行的时候吗，两个计时器是几乎没有时间间隔的先后执行，这样的话，设定的时间就没有意义了。
 
+
+首先来看setInterval的缺陷，使用setInterval()创建的定时器确保了定时器代码规则地插入队列中。
+这个问题在于：如果定时器代码在代码再次添加到队列之前还没完成执行，结果就会导致定时器代码连续运行好几次。
+而之间没有间隔。不过幸运的是：
+javascript引擎足够聪明，能够避免这个问题。
+当且仅当没有该定时器的如何代码实例时，才会将定时器代码添加到队列中。
+这确保了定时器代码加入队列中最小的时间间隔为指定时间。
+
+
 requestAnimationFrame采用系统时间间隔
 IE9-浏览器不支持该方法
+
+
+
+
+
+用setTimeout来模拟一下setInterval
+
+function f(){
+  console.log('1')
+  var timer = setTimeout(f,100)
+
+}
+
+setTimeout(f,100)

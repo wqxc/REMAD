@@ -23,49 +23,15 @@
     </style>
   </head>
     <body>
-      <div id="farther">
-        <div id="child">
-          <div id="child1">
-
-          </div>
-        </div>
-      </div>
+        <div id="mypic">onloading……</div>
 
         <script>
-          console.log("document",document)
-
-          window.onload =function(){
-            // 节流函数多了一个 mustRun 属性，代表 mustRun 毫秒内，必然会触发一次 handler ，
-            function throttle(func, wait, mustRun) {
-                var timeout,
-                    startTime = new Date();
-
-                return function() {
-                    var context = this,
-                        args = arguments,
-                        curTime = new Date();
-
-                    clearTimeout(timeout);
-                    // 如果达到了规定的触发时间间隔，触发 handler
-                    if(curTime - startTime >= mustRun){
-                        func.apply(context,args);
-                        startTime = curTime;
-                    // 没达到触发间隔，重新设定定时器
-                    }else{
-                        timeout = setTimeout(func, wait);
-                    }
-                };
-            };
-
-            // window.addEventListener('scroll',throttle(realFunc,500,1000));
-
-            var parent= document.getElementById('farther')
-            console.log("parent",parent);
-            parent.addEventListener('mouseover',throttle(handeler,500,1000))
-            function handeler(e){
-              console.log("this",this);
-              // this.css("border",'2px solid blue')
-              this.style.border="2px solid blue"
+          var obj=new Image();
+          obj.src="http://lucton-test.oss-cn-beijing.aliyuncs.com/152336hplbzqajl1opm5bd_1545118226653.jpg";
+          obj.onreadystatechange=function(){
+          if(this.readyState=="complete"){
+              alert('图片的宽度为：'+obj.width+'；图片的高度为：'+obj.height);
+              document.getElementById("mypic").innnerHTML="<img src='"+this.src+"' />";
             }
           }
         </script>
