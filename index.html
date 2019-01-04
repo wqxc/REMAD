@@ -4,36 +4,15 @@
     <meta charset="utf-8">
     <title></title>
     <style media="screen">
-      #farther{
-        border: 1px solid red;
-        width: 100px;
-        height: 100px;
-        cursor: pointer;
-      }
-      #child{
-        border: 1px solid green;
-        width: 50px;
-        height: 50px;
-      }
-      #child1{
-        border: 1px solid yellow;
-        width: 20px;
-        height: 20px;
+      .test{
+        width: 750px;
+        height: 750px;
+        border:  1px solid red;
       }
     </style>
   </head>
     <body>
-        <div id="mypic">onloading……</div>
-
-        <script>
-          var obj=new Image();
-          obj.src="http://lucton-test.oss-cn-beijing.aliyuncs.com/152336hplbzqajl1opm5bd_1545118226653.jpg";
-          obj.onreadystatechange=function(){
-          if(this.readyState=="complete"){
-              alert('图片的宽度为：'+obj.width+'；图片的高度为：'+obj.height);
-              document.getElementById("mypic").innnerHTML="<img src='"+this.src+"' />";
-            }
-          }
-        </script>
+      <div class="test">
+      </div>
     </body>
 </html>
