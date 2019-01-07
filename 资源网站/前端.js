@@ -1,2 +1,5 @@
 sso 单点登录 (https:\//www.cnblogs.com/EzrealLiu/p/5559255.html)
 设备的理想宽度 (http:\//viewportsizes.com)
+vue插件( https:\//github.com/vuejs/awesome-vue#components--libraries)
+手机屏幕配置 (https:\//blog.csdn.net/amyloverice/article/details/79389357)
+viewport (https:\//www.cnblogs.com/2050/p/3877280.html)

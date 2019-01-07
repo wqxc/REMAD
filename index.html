@@ -3,38 +3,45 @@
   <head>
     <meta charset="utf-8">
     <title></title>
-    <style media="screen">
-      .container {
-        border: 1px solid red;
-      }
-      .left{
-        float: left;
-        width: 100px;
-        height: 100px;
-        margin-right: 10px;
-        border:1px solid green;
-
-      
-      }
-      .container1{
-        height: 100px;
-        width: 210px;
-        border: 2px solid yellow;
-      }
-
-    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
+    <script src="./vuex.js"></script>
   </head>
     <body>
-      <div class="container">
-        <div class="left">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </div>
-        <div class="left">
-
-        </div>
+      <div id="app">
+        {{count}}
       </div>
-      <div class="container1">
+      <script type="text/javascript">
+      const store = new Vuex.Store({
+          state: {
+            count:10,
+            todos: [
+              { id: 1, text: '...', done: true },
+              { id: 2, text: '...', done: false }
+            ]
+          },
+          getters: {
+            doneTodos: state => {
+              return state.todos.filter(todo => todo.done)
+            }
+          }
+        })
+        var vm = new Vue({
+              el: '#app',
+              // state
+              data () {
+                return {
+                  job:''
+                }
+              },
+              store,
+              computed:{
+                count(){
+                  return store
+                }
+              }
+          })
 
-      </div>
+
+      </script>
     </body>
 </html>
