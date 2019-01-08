@@ -1,47 +1,39 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html>
   <head>
-    <meta charset="utf-8">
-    <title></title>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
-    <script src="./vuex.js"></script>
+      <title></title>
   </head>
-    <body>
+  <body>
+
       <div id="app">
-        {{count}}
+           <button type="button" name="button" id="btn" >点击按钮</button>
       </div>
+
       <script type="text/javascript">
-      const store = new Vuex.Store({
-          state: {
-            count:10,
-            todos: [
-              { id: 1, text: '...', done: true },
-              { id: 2, text: '...', done: false }
-            ]
-          },
-          getters: {
-            doneTodos: state => {
-              return state.todos.filter(todo => todo.done)
+          function mem(f,wait,mus){
+            var timeout,
+            startTime = new Date();
+            return function(){
+              var context=this,
+              args=arguments;
+              curTime = new Date()
+              clearTimeout(timeout)
+              if(curTime-startTime>=mus){
+                f.call(context)
+                startTime = curTime
+              }else {
+                timeout = setTimeout(f,wait)
+              }
             }
           }
-        })
-        var vm = new Vue({
-              el: '#app',
-              // state
-              data () {
-                return {
-                  job:''
-                }
-              },
-              store,
-              computed:{
-                count(){
-                  return store
-                }
-              }
-          })
-
-
+          function f(){
+            console.log('ffff')
+          }
+          window.onload=function(){
+            var btn = document.getElementById('btn')
+            console.log('btn',btn)
+            btn.onclick= mem(f,1000,3000)
+          }
       </script>
-    </body>
+  </body>
 </html>
