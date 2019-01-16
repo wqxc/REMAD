@@ -12,7 +12,7 @@ http缓存(https:\//imweb.io/topic/5795dcb6fb312541492eda8c)
 合格前端系列第九弹-前端面试那些事(https:\//zhuanlan.zhihu.com/p/32911022)
 js基础知识 (https:\//leohxj.gitbooks.io/front-end-database/content/javascript-basic/index.html)
 前端 (https:\//mountain-buzhou.github.io/Interview-Book/guide/)
-
+浏览器(https://www.html5rocks.com/zh/tutorials/internals/howbrowserswork/)
 var arr = [1,[2,[3,4,[5,6,[7],8],9],10]]
 arr.toString()
 转换为[1,2,3,4,5,6,7,8,9,10]
