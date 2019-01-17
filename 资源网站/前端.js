@@ -6,6 +6,8 @@ viewport (https:\//www.cnblogs.com/2050/p/3877280.html)
 GrapQL(https:\//segmentfault.com/a/1190000006132986)
 跨域(http:\//www.ruanyifeng.com/blog/2016/04/cors.html)
 http缓存(https:\//imweb.io/topic/5795dcb6fb312541492eda8c)
+tcp(https://harttle.land/2014/09/27/tcp.html)
+
 
 下一步
 2018前端面试押题 (https:\//zhuanlan.zhihu.com/p/34536462)
