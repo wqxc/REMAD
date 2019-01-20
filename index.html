@@ -1,40 +1,39 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html>
   <head>
-    <meta charset="utf-8">
-    <title></title>
-    <style media="screen">
-      .container {
-        border: 1px solid red;
-      }
-      .left{
-        float: left;
-        width: 100px;
-        height: 100px;
-        margin-right: 10px;
-        border:1px solid green;
-
-      
-      }
-      .container1{
-        height: 100px;
-        width: 210px;
-        border: 2px solid yellow;
-      }
-
-    </style>
+      <title></title>
   </head>
-    <body>
-      <div class="container">
-        <div class="left">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </div>
-        <div class="left">
+  <body>
 
-        </div>
+      <div id="app">
+           <button type="button" name="button" id="btn" >点击按钮</button>
       </div>
-      <div class="container1">
 
-      </div>
-    </body>
+      <script type="text/javascript">
+          function mem(f,wait,mus){
+            var timeout,
+            startTime = new Date();
+            return function(){
+              var context=this,
+              args=arguments;
+              curTime = new Date()
+              clearTimeout(timeout)
+              if(curTime-startTime>=mus){
+                f.call(context)
+                startTime = curTime
+              }else {
+                timeout = setTimeout(f,wait)
+              }
+            }
+          }
+          function f(){
+            console.log('ffff')
+          }
+          window.onload=function(){
+            var btn = document.getElementById('btn')
+            console.log('btn',btn)
+            btn.onclick= mem(f,1000,3000)
+          }
+      </script>
+  </body>
 </html>

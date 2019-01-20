@@ -1,4 +1,4 @@
-如何生存BFC
+如何生成BFC
   设置浮动
   绝对定位元素
   inline-block
