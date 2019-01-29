@@ -36,6 +36,8 @@ runAsync().then(function(data){
 })
 
 Object.prototype.toString.call(runAsync())  "[object Promise]"
+
+
 Promise构造函数接收一匿名个函数作为参数，这个匿名函数接收两个参数，resolve和reject，
 这两个参数其实都是函数，一个代表执行成功的回调，一个则是代表失败。
 Promise有三种状态pending:表示请求执行中，fulfilled表示执行成功，rejected:表示执行失败。
@@ -79,6 +81,7 @@ var p = new Promise(function(resove,reject){
           resove(data)
       },4000)
 })
+
 p.then(function(data){
   console.log(data)// {name:'123',age:123,address:'上海市怀化区从安阳了123号'}
   return new Promise(function(resove,reject){
